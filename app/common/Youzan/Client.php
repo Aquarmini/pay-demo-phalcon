@@ -73,4 +73,31 @@ class Client
         return $result['response'];
     }
 
+    public function pay($authToken, $orderId)
+    {
+        $token = $this->token();//请填入商家授权后获取的access_token
+        $client = new YzClient($token);
+
+        $method = 'youzan.pay.single.pay'; //要调用的api名称
+        $api_version = '3.0.0'; //要调用的api版本号
+
+        $my_params = [
+            'yz_auth_token' => $authToken,
+            'trade_desc' => '统一支付测试',
+            'return_url' => 'http://www.baidu.com',
+            'pay_tool' => 'WX_JS',
+            'pay_amount' => '1',
+            'partner_id' => env('YOUZAN_KDT_ID'),
+            'out_biz_no' => $orderId,
+            'notify_url' => 'http://www.baidu.com',
+            'mch_id' => env('YOUZAN_KDT_ID'),
+            'goods_desc' => '统一支付测试',
+        ];
+
+        $my_files = [
+        ];
+
+        return $client->post($method, $api_version, $my_params, $my_files);
+    }
+
 }

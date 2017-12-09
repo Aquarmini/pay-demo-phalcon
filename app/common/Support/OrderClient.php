@@ -1,14 +1,20 @@
 <?php
 // +----------------------------------------------------------------------
-// | api.php [ WE CAN DO IT JUST THINK IT ]
+// | OrderClient.php [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2016-2017 limingxinleo All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: limx <715557344@qq.com> <https://github.com/limingxinleo>
 // +----------------------------------------------------------------------
+namespace App\Common\Support;
 
-// 收款二维码
-$router->add('/youzan/pay/qrcode', 'App\\Controllers\\Youzan\\Pay::qrcode');
+use Xin\Snowflake\Client;
 
-// 统一支付
-$router->add('/youzan/pay/pay', 'App\\Controllers\\Youzan\\Pay::pay');
+class OrderClient extends Client
+{
+    public function getBeginAt()
+    {
+        return strtotime('2017-12-01') * 1000;
+    }
+
+}
