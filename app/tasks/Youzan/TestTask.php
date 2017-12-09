@@ -21,12 +21,19 @@ class TestTask extends Task
 
         echo Color::head('Actions:') . PHP_EOL;
         echo Color::colorize('  token       获取授权Token', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  payQrcode  生成支付二维码', Color::FG_LIGHT_GREEN) . PHP_EOL;
     }
 
     public function tokenAction()
     {
         $token = Client::getInstance()->token();
         echo Color::colorize('TOKEN:' . $token) . PHP_EOL;
+    }
+
+    public function payQrcodeAction()
+    {
+        $res = Client::getInstance()->payQrcode();
+        dd($res);
     }
 
 }

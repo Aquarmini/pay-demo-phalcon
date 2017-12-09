@@ -13,6 +13,7 @@ use App\Common\Enums\RedisKey;
 use App\Common\Exceptions\CodeException;
 use App\Utils\Redis;
 use Xin\Traits\Common\InstanceTrait;
+use Youzan\Open\Client as YzClient;
 
 class Client
 {
@@ -34,7 +35,7 @@ class Client
 
         $accessToken = (new \Youzan\Open\Token($clientId, $clientSecret))->getToken($type, $keys);
         if (empty($accessToken['access_token']) || empty($accessToken['expires_in'])) {
-            throw new CodeException(ErrorCode::$ENUM_YOUZAN_TOKEN_FAILED);
+            throw new CodeException(ErrorCode::$ENUM_YOUZAN_CREATE_TOKEN_FAILED);
         }
 
         $token = $accessToken['access_token'];
@@ -46,4 +47,30 @@ class Client
 
         return $token;
     }
+
+    public function payQrcode()
+    {
+        $token = $this->token();//请填入商家授权后获取的access_token
+        $client = new YzClient($token);
+
+        $method = 'youzan.pay.qrcode.create'; //要调用的api名称
+        $api_version = '3.0.0'; //要调用的api版本号
+
+        $my_params = [
+            'qr_name' => '測試',
+            'qr_price' => '1',
+            'qr_type' => 'QR_TYPE_NOLIMIT',
+        ];
+
+        $my_files = [
+        ];
+
+        $result = $client->post($method, $api_version, $my_params, $my_files);
+        if (!isset($result['response'])) {
+            throw new CodeException(ErrorCode::$ENUM_YOUZAN_CREATE_PAY_QRCODE_FAILED);
+        }
+
+        return $result['response'];
+    }
+
 }

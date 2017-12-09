@@ -20,5 +20,10 @@ class ErrorCode extends Enum
     /**
      * @Message('获取有赞Token失败')
      */
-    public static $ENUM_YOUZAN_TOKEN_FAILED = 1000;
+    public static $ENUM_YOUZAN_CREATE_TOKEN_FAILED = 1000;
+
+    /**
+     * @Message('生成有赞收款二维码失败')
+     */
+    public static $ENUM_YOUZAN_CREATE_PAY_QRCODE_FAILED = 1001;
 }
